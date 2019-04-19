@@ -47,6 +47,8 @@ def random_training_set(chunk_len, batch_size):
           inp[bi] = char_tensor(chunk[:-1])
           target[bi] = char_tensor(chunk[1:])
         else:
+          # audio is already a tensor by this point
+          # so let's just grab it and throw it in
           chunk = file[0][start_index:end_index]
           inp[bi] = chunk[:-1]
           target[bi] = chunk[1:]

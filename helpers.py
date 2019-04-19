@@ -20,7 +20,7 @@ MAX_AUDIO_FILES = 10
 def read_audio_dir(dir_name):
   p = Path(dir_name)
   wavs = glob.glob(str(p) + '/**/*.wav', recursive=True)
-  print('Found ' + len(wavs) + ' files')
+  print('Found ' + str(len(wavs)) + ' files')
   final_audio = torch.tensor()
   # Concat all audio together
   for wav in wavs[:MAX_AUDIO_FILES]:

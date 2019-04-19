@@ -31,7 +31,10 @@ args = argparser.parse_args()
 if args.cuda:
     print("Using CUDA")
 
-file, file_len = read_file(args.filename)
+if args.audio:
+  file, file_len = read_audio_dir(args.filename)
+else:
+  file, file_len = read_file(args.filename)
 
 def random_training_set(chunk_len, batch_size):
     inp = torch.LongTensor(batch_size, chunk_len)
@@ -39,9 +42,14 @@ def random_training_set(chunk_len, batch_size):
     for bi in range(batch_size):
         start_index = random.randint(0, file_len - chunk_len)
         end_index = start_index + chunk_len + 1
-        chunk = file[start_index:end_index]
-        inp[bi] = char_tensor(chunk[:-1])
-        target[bi] = char_tensor(chunk[1:])
+        if args.audio:
+          chunk = file[start_index:end_index]
+          inp[bi] = char_tensor(chunk[:-1])
+          target[bi] = char_tensor(chunk[1:])
+        else:
+          chunk = file[0][start_index:end_index]
+          inp[bi] = chunk[:-1]
+          target[bi] = chunk[1:]
     inp = Variable(inp)
     target = Variable(target)
     if args.cuda:

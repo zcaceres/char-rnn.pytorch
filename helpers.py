@@ -6,11 +6,27 @@ import random
 import time
 import math
 import torch
+import torchaudio
+import glob
+from pathlib import Path
 
 # Reading and un-unicode-encoding data
 
 all_characters = string.printable
 n_characters = len(all_characters)
+
+MAX_AUDIO_FILES = 10
+
+def read_audio_dir(dir_name):
+  p = Path(dir_name)
+  wavs = glob.glob(str(p) + '/**/*.wav', recursive=True)
+  print('Found ' + len(wavs) + ' files')
+  final_audio = torch.tensor()
+  # Concat all audio together
+  for wav in wavs[:MAX_AUDIO_FILES]:
+    sig, sr = torchaudio.load(wav)
+    final_audio = torch.cat((final_audio, sig), 0)
+  return final_audio, final_audio.shape[0]
 
 def read_file(filename):
     file = unidecode.unidecode(open(filename).read())

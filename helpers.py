@@ -21,10 +21,12 @@ def read_audio_dir(dir_name):
   p = Path(dir_name)
   wavs = glob.glob(str(p) + '/**/*.wav', recursive=True)
   print('Found ' + str(len(wavs)) + ' files')
-  final_audio = torch.tensor()
+  final_audio = torch.empty([0])
   # Concat all audio together
   for wav in wavs[:MAX_AUDIO_FILES]:
     sig, sr = torchaudio.load(wav)
+    print(final_audio.shape)
+    print(sig.shape)
     final_audio = torch.cat((final_audio, sig), 0)
   return final_audio, final_audio.shape[0]
 

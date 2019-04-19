@@ -44,15 +44,18 @@ def random_training_set(chunk_len, batch_size):
         start_index = random.randint(0, file_len - chunk_len)
         end_index = start_index + chunk_len + 1
         if args.audio:
-          chunk = file[start_index:end_index]
-          inp[bi] = char_tensor(chunk[:-1])
-          target[bi] = char_tensor(chunk[1:])
-        else:
           # audio is already a tensor by this point
           # so let's just grab it and throw it in
           chunk = file[0][start_index:end_index]
           inp[bi] = chunk[:-1]
           target[bi] = chunk[1:]
+        else:
+          chunk = file[start_index:end_index]
+          inp[bi] = char_tensor(chunk[:-1])
+          target[bi] = char_tensor(chunk[1:])
+          print(inp[bi].shape)
+          print(target[bi].shape)
+          exit(0)
     inp = Variable(inp)
     target = Variable(target)
     if args.cuda:

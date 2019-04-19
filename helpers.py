@@ -24,9 +24,10 @@ def read_audio_dir(dir_name):
   final_audio = torch.empty([0])
   # Concat all audio together
   for wav in wavs[:MAX_AUDIO_FILES]:
-    sig, sr = torchaudio.load(wav)
+    sig, sr = torchaudio.load(wav, channels_first=False)
     print(final_audio.shape)
     print(sig.shape)
+    print(sig.squeeze(1).shape)
     final_audio = torch.cat((final_audio, sig), 0)
   return final_audio, final_audio.shape[0]
 

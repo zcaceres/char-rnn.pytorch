@@ -21,15 +21,18 @@ def read_audio_dir(dir_name):
   p = Path(dir_name)
   wavs = glob.glob(str(p) + '/**/*.wav', recursive=True)
   print('Found ' + str(len(wavs)) + ' files')
-  final_audio = torch.empty([0])
   # Concat all audio together
-  for wav in wavs[:MAX_AUDIO_FILES]:
-    sig, sr = torchaudio.load(wav, channels_first=False)
-    print(final_audio.shape)
-    print(sig.shape)
-    print(sig.squeeze(1).shape)
-    final_audio = torch.cat((final_audio, sig), 0)
-  return final_audio, final_audio.shape[0]
+  signals = []
+  sig, sr = torchaudio.load(wav, channels_first=False)
+  return signal.stack(), final_audio.shape[0]
+  # for wav in wavs[:MAX_AUDIO_FILES]:
+  #   sig, sr = torchaudio.load(wav, channels_first=False)
+  #   print(final_audio.shape)
+  #   print(sig.shape)
+  #   print(sig.squeeze(1).shape)
+  #   signals.append(sig)
+  #   # final_audio = torch.cat((final_audio, sig), 0)
+  # return signal.stack(), final_audio.shape[0]
 
 def read_file(filename):
     file = unidecode.unidecode(open(filename).read())

@@ -23,8 +23,8 @@ def read_audio_dir(dir_name):
   print('Found ' + str(len(wavs)) + ' files')
   # Concat all audio together
   signals = []
-  sig, sr = torchaudio.load(wav, channels_first=False)
-  return signal.stack(), final_audio.shape[0]
+  sig, sr = torchaudio.load(wavs[0], channels_first=False)
+  return sig, sig.shape[0]
   # for wav in wavs[:MAX_AUDIO_FILES]:
   #   sig, sr = torchaudio.load(wav, channels_first=False)
   #   print(final_audio.shape)
